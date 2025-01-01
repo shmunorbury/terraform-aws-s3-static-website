@@ -4,13 +4,17 @@ resource "aws_cloudwatch_metric_alarm" "email_topic" {
   alarm_name                = "high-traffic-${var.domain_name}"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = 5
-  metric_name               = "CPUUtilization"
-  namespace                 = "AWS/EC2"
+  metric_name               = "Requests"
+  namespace                 = "AWS/CloudFront"
   period                    = 60
   statistic                 = "Sum"
   threshold                 = var.request_limit
   alarm_description         = "This will fire an alert when the number of requests is more than ${var.request_limit} per minute for 5 consecutive minutes."
   insufficient_data_actions = []
+  dimensions = {
+    DistributionId = aws_cloudfront_distribution.root_s3_distribution.id
+    Region = "Global"
+  }
   actions_enabled           = "true"
   alarm_actions             = [aws_sns_topic.sns.arn]
   ok_actions                = [aws_sns_topic.sns.arn]
