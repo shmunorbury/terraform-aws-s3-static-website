@@ -1,6 +1,6 @@
 # Cloudfront distribution for main s3 site.
 resource "aws_cloudfront_distribution" "root_s3_distribution" {
-  http_version                   = "http2and3"
+  http_version = "http2and3"
   origin {
     domain_name = aws_s3_bucket_website_configuration.root.website_endpoint
     origin_id   = "S3-${var.bucket_name}"
@@ -17,7 +17,7 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = [ "${var.domain_name}", "www.${var.domain_name}"]
+  aliases = ["${var.domain_name}", "www.${var.domain_name}"]
 
   custom_error_response {
     error_caching_min_ttl = 0
@@ -27,10 +27,10 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-${var.bucket_name}"
-  response_headers_policy_id = data.aws_cloudfront_response_headers_policy.sec.id
+    allowed_methods            = ["GET", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "S3-${var.bucket_name}"
+    response_headers_policy_id = data.aws_cloudfront_response_headers_policy.sec.id
 
     forwarded_values {
       query_string = false
@@ -62,6 +62,6 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
   tags = var.common_tags
 }
 
-data aws_cloudfront_response_headers_policy "sec" {
+data "aws_cloudfront_response_headers_policy" "sec" {
   name = "Managed-CORS-with-preflight-and-SecurityHeadersPolicy"
 }

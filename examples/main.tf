@@ -1,8 +1,8 @@
 module "s3_website" {
-  source = "../"
+  source      = "../"
   bucket_name = "example.org"
   domain_name = "example.org"
   common_tags = {
-    x= "y"
+    x = "y"
   }
 }

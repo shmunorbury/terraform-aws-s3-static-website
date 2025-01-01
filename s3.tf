@@ -49,8 +49,8 @@ resource "aws_s3_bucket_cors_configuration" "cors" {
 resource "aws_s3_bucket_website_configuration" "www" {
   bucket = aws_s3_bucket.www_bucket.id
   redirect_all_requests_to {
-    host_name = "${var.domain_name}"
-    protocol = "https"
+    host_name = var.domain_name
+    protocol  = "https"
   }
 
 
@@ -59,7 +59,7 @@ resource "aws_s3_bucket_website_configuration" "www" {
 # S3 bucket for redirecting non-www to www.
 resource "aws_s3_bucket" "root_bucket" {
   bucket = var.bucket_name
-  tags = var.common_tags
+  tags   = var.common_tags
 }
 resource "aws_s3_bucket_website_configuration" "root" {
   bucket = aws_s3_bucket.root_bucket.id
@@ -113,7 +113,7 @@ data "aws_iam_policy_document" "allow_public_s3_read" {
     ]
 
     principals {
-      type = "*"
+      type        = "*"
       identifiers = ["*"]
     }
 
