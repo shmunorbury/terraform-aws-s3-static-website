@@ -1,4 +1,4 @@
-resource "aws_cloudwatch_metric_alarm" "foobar" {
+resource "aws_cloudwatch_metric_alarm" "email_topic" {
   count                     = var.admin_email == "" ? 0 : 1
   alarm_name                = "high-traffic-${var.domain_name}"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
