@@ -120,3 +120,13 @@ resource "aws_route53_hosted_zone_dnssec" "this" {
   ]
   hosted_zone_id = aws_route53_key_signing_key.this.hosted_zone_id
 }
+
+resource "aws_route53domains_delegation_signer_record" "this" {
+  domain_name = var.domain_name
+
+  signing_attributes {
+    algorithm  = aws_route53_key_signing_key.this.signing_algorithm_type
+    flags      = aws_route53_key_signing_key.this.flag
+    public_key = aws_route53_key_signing_key.this.public_key
+  }
+}
